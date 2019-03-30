@@ -9,7 +9,6 @@
   "author": "YZ",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^1.13.0",
     "tokio": "^0.1.2",
     "wink-naive-bayes-text-classifier": "^2.0.0"
   }
