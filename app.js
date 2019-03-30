@@ -60,7 +60,7 @@ predicate = (itemName) => {
 }
 
 main = async () => {
-    let fileContent = fs.readFileSync("./output.json", "utf8");
+    let fileContent = fs.readFileSync("./output.json", "windows 1251");
     if (fileContent.length => 1) {
         let dataToWrite = [];
         for (let numberPage = 1; numberPage <= 3; numberPage++) {
