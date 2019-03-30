@@ -60,8 +60,7 @@ predicate = (itemName) => {
 }
 
 main = async () => {
-    let fileContent = fs.readFileSync("./output.json", "windows 1251");
-    if (fileContent.length => 1) {
+    if (!fs.existsSync("./output.json")) {  
         let dataToWrite = [];
         for (let numberPage = 1; numberPage <= 3; numberPage++) {
             let tempDataArr = await getPages(numberPage);
