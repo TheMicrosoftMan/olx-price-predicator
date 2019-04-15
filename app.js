@@ -9,10 +9,10 @@ nbc.defineConfig({
     smoothingFactor: 0.5
 });
 
-getPages = query => {
+getPages = page => {
     return new Promise((resolve, reject) => {
         const tokio = new Tokio({
-            url: `https://www.olx.ua/uk/list/q-${query}/`
+            url: `https://www.olx.ua/elektronika/kompyutery-i-komplektuyuschie/?page=${page}/`
         });
         tokio.fetch().then(html => {
             const $ = cheerio.load(html, {
@@ -60,10 +60,13 @@ predicate = (itemName) => {
 }
 
 main = async () => {
-    let fileContent = fs.readFileSync("./output.json", "utf8");
-    if (!fileContent.length) {
+    let PAGES_TO_DOWNLOAD = 3;
+    let PREDIACETE = 'Acer core i5-4x3.3 Ghz';
+    
+    let pathToTrainData = "./output.json";
+    if (!fs.existsSync(pathToTrainData)) {
         let dataToWrite = [];
-        for (let numberPage = 1; numberPage <= 3; numberPage++) {
+        for (let numberPage = 1; numberPage <= PAGES_TO_DOWNLOAD; numberPage++) {
             let tempDataArr = await getPages(numberPage);
             tempDataArr.forEach(el => {
                 dataToWrite.push(el);
@@ -71,8 +74,8 @@ main = async () => {
         }
         fs.writeFileSync('output.json', JSON.stringify(dataToWrite));
     }
-    await train('./output.json');
-    console.log(await predicate('DDR3'));
+    await train(pathToTrainData);
+    console.log(await predicate(PREDIACETE));
 }
 
 main();
