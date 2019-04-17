@@ -11,8 +11,9 @@ nbc.defineConfig({
 
 getPages = page => {
     return new Promise((resolve, reject) => {
+        let url = `https://www.olx.ua/elektronika/kompyutery-i-komplektuyuschie/?page=${page}`;
         const tokio = new Tokio({
-            url: `https://www.olx.ua/elektronika/kompyutery-i-komplektuyuschie/?page=${page}/`
+            url: url
         });
         tokio.fetch().then(html => {
             const $ = cheerio.load(html, {
@@ -60,13 +61,14 @@ predicate = (itemName) => {
 }
 
 main = async () => {
-    let PAGES_TO_DOWNLOAD = 3;
-    let PREDIACETE = 'Acer core i5-4x3.3 Ghz';
+    let PAGES_TO_DOWNLOAD = 30;
+    let PREDIACETE = 'Asus Cerberus GTX 1070 Ti 8GB';
     
     let pathToTrainData = "./output.json";
     if (!fs.existsSync(pathToTrainData)) {
         let dataToWrite = [];
         for (let numberPage = 1; numberPage <= PAGES_TO_DOWNLOAD; numberPage++) {
+            console.log(`Loading page №${numberPage}`);  
             let tempDataArr = await getPages(numberPage);
             tempDataArr.forEach(el => {
                 dataToWrite.push(el);
